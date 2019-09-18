@@ -1,0 +1,27 @@
+﻿
+@inject QuestionService QuestionService
+
+<div>
+    <h1>Ask a new question</h1>
+</div>
+
+@code {
+    Question question;
+
+    [Parameter]
+    public string QuestionId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrEmpty(QuestionId))
+        {
+            // It's a new question
+            question = new Question();
+        }
+        else
+        {
+            question = await QuestionService.GetAsync(QuestionId);
+        }
+        
+    }
+}

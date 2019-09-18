@@ -24,5 +24,7 @@ namespace whatModel.Models
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<QuestionView> Views { get; set; }
+
+        public ICollection<Answer> Answers { get; set; }
     }
 }
