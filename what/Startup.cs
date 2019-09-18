@@ -13,10 +13,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using what.Areas.Identity;
-using what.Data;
+using whatWeb.Areas.Identity;
+using whatModel.Models;
+using Microsoft.Extensions.Options;
+using whatWeb.Data;
 
-namespace what
+namespace whatWeb
 {
     public class Startup
     {
@@ -31,16 +33,23 @@ namespace what
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add connection settings for database provider
+            services.Configure<whatDatabaseSettings>(
+                Configuration.GetSection(nameof(whatDatabaseSettings))
+                );
+            // Add the singleton to IoC
+            services.AddSingleton<IwhatDatabaseSettings>(services => services.GetRequiredService<IOptions<whatDatabaseSettings>>().Value);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
-                .AddRoleManager<IdentityRole>()
+                //.AddRoleManager<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<WeatherForecastService>();    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

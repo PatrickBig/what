@@ -10,7 +10,15 @@ namespace whatWeb.Services
     public class QuestionService
     {
         private readonly IMongoCollection<Question> _questions;
+        private const string collectionName = "Questions";
 
+        public QuestionService(IwhatDatabaseSettings settings)
+        {
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
+
+            _questions = database.GetCollection<Question>(collectionName);
+        }
 
         private Question BuildQuestion(string title, string content, string userId, List<whatModel.Models.Tag> tags)
         {
@@ -43,5 +51,7 @@ namespace whatWeb.Services
 
             return q;
         }
+
+
     }
 }

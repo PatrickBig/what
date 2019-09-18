@@ -1,6 +1,6 @@
 using System;
 
-namespace what.Data
+namespace whatWeb.Data
 {
     public class WeatherForecast
     {
