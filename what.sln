@@ -5,7 +5,14 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "whatWeb", "whatWeb\whatWeb.csproj", "{AF83DCE8-8D1F-4BAB-8065-8E879348492B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "whatModel", "whatModel\whatModel.csproj", "{63C8457E-7FAE-446E-9AD9-E0C457012CFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "whatModel", "whatModel\whatModel.csproj", "{63C8457E-7FAE-446E-9AD9-E0C457012CFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58930239-C132-4F89-BC4A-73225AFD567B}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

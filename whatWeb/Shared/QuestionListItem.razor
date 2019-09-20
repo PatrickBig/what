@@ -1,0 +1,37 @@
+﻿<div class="row">
+    <div class="col-1">
+        <span class="border rounded" id="vote_@Id">@Votes</span>
+    </div>
+    <div class="col-1">
+        <span class="border rounded" id="answers_@Id">@Answers</span>
+    </div>
+    <div class="col-1">
+        <span class="border rounded" id="views_@Id">@Views</span>
+    </div>
+    <div class="col-9">
+        @Title
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public int Votes { get; set; }
+
+    [Parameter]
+    public int Answers { get; set; }
+
+    [Parameter]
+    public int Views { get; set; }
+
+    [Parameter]
+    public DateTime PostDate { get; set; }
+
+    [Parameter]
+    public string UserId { get; set; }
+}

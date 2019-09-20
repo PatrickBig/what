@@ -1,12 +1,26 @@
 ﻿
 @inject QuestionService QuestionService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div>
-    <h1>Ask a new question</h1>
+    <EditForm Model="@question" OnValidSubmit="@HandleValidSubmit" Context="editContext">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="title">Title</label>
+            <InputText class="form-control" id="title" @bind-Value="@question.Title" />
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <InputTextArea class="form-control" id="content" @bind-Value="@question.Content" rows="8"/>
+        </div>
+        <button class="btn btn-primary" type="submit">Ask</button>
+    </EditForm>
 </div>
 
 @code {
-    Question question;
+    private Question question;
+    private bool isNewQuestion = true;
 
     [Parameter]
     public string QuestionId { get; set; }
@@ -15,13 +29,30 @@
     {
         if (string.IsNullOrEmpty(QuestionId))
         {
-            // It's a new question
+            // New question
             question = new Question();
+            isNewQuestion = true;
         }
         else
         {
+            // Edit the one we found
             question = await QuestionService.GetAsync(QuestionId);
+            if (question == null)
+            {
+                // Something went wrong
+                
+            }
+            isNewQuestion = false;
         }
-        
+
+    }
+
+
+    private async Task HandleValidSubmit()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        question = QuestionService.Ask(question.Title, question.Content, user.Identity.Name, null);
     }
 }

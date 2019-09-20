@@ -29,7 +29,27 @@ namespace whatWeb.Services
                 Content = content,
                 PostUserId = userId,
                 PostDate = DateTime.Now,
-                Tags = tags
+                Tags = tags,
+                // Add a view
+                Views = new List<QuestionView>
+                {
+                    new QuestionView
+                    {
+                        UserId = userId,
+                        ViewDate = DateTime.Now
+                    }
+                },
+                // Add a vote
+                Votes = new List<Vote>
+                {
+                    new Vote
+                    {
+                        UserId = userId,
+                        VoteDate = DateTime.Now,
+                        VoteType = VoteType.Up
+                    }
+                }
+
             };
 
             return newQuestion;
