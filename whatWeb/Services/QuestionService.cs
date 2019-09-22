@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,11 +85,22 @@ namespace whatWeb.Services
         }
 
 
-        //public async Task<ICollection<QuestionPreview>> GetFrontPageAsync(int limit)
-        //{
-        //    var filter = new FilterDefinitionBuilder<Question>();
-        //    filter.Where(q => q.Views.Count > 1);
-        //    //var questions = await _questions.Find()
-        //}
+        public async Task<IList<QuestionPreview>> GetFrontPageAsync(int limit, int skip)
+        {
+            var result = await _questions.Find(_ => true)
+                .Project(x => new QuestionPreview
+                {
+                    Id = x.Id,
+                    Answers = x.Answers == null ? 0 : x.Answers.Count,
+                    Views = x.Views == null ? 0 : x.Views.Count,
+                    Votes = x.Votes == null ? 0 : x.Votes.Count(v => v.VoteType == VoteType.Up) - x.Votes.Count(v => v.VoteType == VoteType.Down),
+                    Title = x.Title,
+                    PostDate = x.PostDate,
+                    UserId = x.PostUserId,
+                })
+                .Skip(skip).Limit(limit).ToListAsync();
+
+            return result;
+        }
     }
 }

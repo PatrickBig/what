@@ -1,15 +1,32 @@
 ﻿<div class="row">
-    <div class="col-1">
-        <span class="border rounded" id="vote_@Id">@Votes</span>
+    <div class="col-1 border rounded text-center align-middle">
+        <span id="vote_@Id">@Votes</span>
+        <br />
+        <small>votes</small>
     </div>
-    <div class="col-1">
-        <span class="border rounded" id="answers_@Id">@Answers</span>
+    <div class="col-1 border rounded text-center align-middle">
+        <span id="answers_@Id">@Answers</span>
+        <br />
+        <small>answers</small>
     </div>
-    <div class="col-1">
-        <span class="border rounded" id="views_@Id">@Views</span>
+    <div class="col-1 border rounded text-center align-middle">
+        <span id="views_@Id">@Views</span>
+        <br />
+        <small>views</small>
     </div>
     <div class="col-9">
-        @Title
+        <div class="row">
+            <div class="col-12">@Title</div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+            @foreach (var t in Tags)
+            {
+                <span class="oi-badge badge-info">@t.Name</span>
+            }
+            </div>
+            <div class="col-6 text-right">@PostDate.ToString()</div>
+        </div>
     </div>
 </div>
 
@@ -34,4 +51,7 @@
 
     [Parameter]
     public string UserId { get; set; }
+
+    [Parameter]
+    public List<Tag> Tags { get; set; } = new List<Tag>();
 }

@@ -1,12 +1,25 @@
 ﻿@page "/"
+@inject QuestionService QuestionService
 
 <h2>what</h2>
 
+@if(questionPreviews == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    foreach(var q in questionPreviews)
+    {
+        <QuestionListItem Id="@q.Id" Answers="@q.Answers" Title="@q.Title" Views="@q.Views" Votes="@q.Votes" PostDate="@q.PostDate" UserId="@q.UserId" />
+    }
+}
+
 <NavLink href="Questions\Ask">Ask away</NavLink>
 @code{
-
+    private IList<QuestionPreview> questionPreviews;
     protected override async Task OnInitializedAsync()
     {
-        
+        questionPreviews = await QuestionService.GetFrontPageAsync(10, 0);
     }
 }
